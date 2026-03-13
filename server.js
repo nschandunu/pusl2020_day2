@@ -1,14 +1,27 @@
-console.log("Hi, i'm working rn !!")
+console.log("Hi, i'm working rn !!");
+
+const express = require('express');
+const app = express();
 const port = 3000;
-const exp = require('express');
-const app = exp();
 
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true })); 
 
-//my dey
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}. \n Enter Ctrl + C to stop the server.`);
+let currentName = "";
+
+app.post('/submit', (req, res) => {
+    currentName = req.body.userName; 
+    res.redirect('/greeting'); 
 });
 
-// new way
-// app.listen(port, ()
+app.get('/greeting', (req, res) => {
+    res.send(`
+        <h1>Hello, ${currentName}!</h1>
+        <br>
+        <a href="/">Go Back</a>
+    `);
+});
 
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
