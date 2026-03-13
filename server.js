@@ -15,10 +15,28 @@ app.post('/submit', (req, res) => {
 });
 
 app.get('/greeting', (req, res) => {
+    const safeName = String(currentName || 'Guest')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
     res.send(`
-        <h1>Hello, ${currentName}!</h1>
-        <br>
-        <a href="/">Go Back</a>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Greeting</title>
+            <link rel="stylesheet" href="/style.css">
+        </head>
+        <body>
+            <h1>Hello, ${safeName}!</h1>
+            <p>This is your greeting page.</p>
+            <a href="/">Go Back</a>
+        </body>
+        </html>
     `);
 });
 
